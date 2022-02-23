@@ -2,6 +2,7 @@ package com.carrotfriend.util;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -53,7 +54,7 @@ public class Response {
                 .build();
         return ResponseEntity.ok(body);
     }
-    @Getter @Builder
+    @Getter @Builder @ToString
     static class Body{
         private int state;
         private String result;
