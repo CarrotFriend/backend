@@ -17,11 +17,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(
-                "/swagger-ui.html",
+                "/swagger-ui/index.html",
                 "/swagger/**",
                 "/swagger-resource/**",
                 "/webjars/**",
-                "/v2/api-docs",
                 "/h2-console/**",
                 "/favicon.com"
         );
