@@ -30,9 +30,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(
-                "/swagger-ui/index.html",
-                "/swagger/**",
-                "/swagger-resource/**",
+                "/",
+                "/swagger-ui/**",
+                "/swagger-resources/**",
+                "/api-docs/**",
                 "/webjars/**",
                 "/h2-console/**",
                 "/favicon.com"
@@ -58,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-                .anyRequest().permitAll()
+                .antMatchers("/**").authenticated()
 
                 .and()
                 .addFilterBefore(new JwtFilter(jwtTokenProvider, redisUtil), UsernamePasswordAuthenticationFilter.class);
