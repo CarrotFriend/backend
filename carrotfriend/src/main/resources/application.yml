@@ -6,9 +6,27 @@ springdoc:
     path: /api-docs
 
 spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://127.0.0.1:3306/carrotfriends?characterEncoding=UTF-8&passwordCharacterEncoding=utf8&serverTimezone=UTC
+    username: carrot
+    password: 1234
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        default_batch_fetch_size: 100
+    database-platform: org.hibernate.dialect.MariaDB103Dialect
+    defer-datasource-initialization: true
   redis:
     host: 127.0.0.1
     port: 6379
+
+server:
+  port: 8080
 
 jwt:
   header: Authorization
