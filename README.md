@@ -13,6 +13,11 @@ sudo service redis-server start     // redis-server 실행, cli모드
 sudo service redis-server stop      // redis-server 종료
 redis-server                        // redis-server 실행
 ```
+#### mariadb 실행
+```
+sudo service mariadb start    // mariadb 실행
+sudo service mariadb stop     // mariadb 종료
+```
 
 |일정 |내용                      |
 |-----|-------------------------|
@@ -21,3 +26,4 @@ redis-server                        // redis-server 실행
 |02-23|domain-user 작성 <br/> swagger 3.0 적용 <br/> response 작성|
 |02-26|jwt기반 security setting|
 |02-27|redis-server 적용|
+|03-03|mariadb 연동 및 user repository & service|
