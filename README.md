@@ -20,10 +20,11 @@ sudo service mariadb stop     // mariadb 종료
 ```
 
 |일정 |내용                      |
-|-----|-------------------------|
-|02-21|프로젝트 아이디어 구상<br/>API 명세서 작성 |
-|02-22|API 명세서 작성<br/> spring boot setting|
-|02-23|domain-user 작성 <br/> swagger 3.0 적용 <br/> response 작성|
-|02-26|jwt기반 security setting|
-|02-27|redis-server 적용|
-|03-03|mariadb 연동 및 user repository & service|
+|-----------|-------------------------|
+|2022-02-21|프로젝트 아이디어 구상<br/>API 명세서 작성 |
+|2022-02-22|API 명세서 작성<br/> spring boot setting|
+|2022-02-23|domain-user 작성 <br/> swagger 3.0 적용 <br/> response 작성|
+|2022-02-26|jwt기반 security setting|
+|2022-02-27|redis-server 적용|
+|2022-03-03|mariadb 연동 <br/> user repository & service|
+|2022-03-04|user controller 간단 구현 <br/> user-category n:m 매핑|
