@@ -9,36 +9,31 @@ import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class ResponseTest {
     @Test
     public void userTest1(){
-        UserRequestDto.User userRequest = UserRequestDto.User.builder()
-                .userID("hong123")
+        UserRequestDto.JoinUser joinUserRequest = UserRequestDto.JoinUser.builder()
+                .userId("hong123")
                 .pw("1234")
                 .nickName("garoo")
                 .gender(Gender.MAN)
                 .birthday(LocalDateTime.now())
                 .email("hong123@hong.com").build();
 
-        User user = User.builder()
+        User user = com.carrotfriend.domain.User.builder()
                 .id(1L)
-                .userID(userRequest.getUserID())
-                .pw(userRequest.getPw())
-                .nickName(userRequest.getNickName())
-                .gender(userRequest.getGender())
-                .birthday(userRequest.getBirthday())
-                .email(userRequest.getEmail())
+                .userID(joinUserRequest.getUserId())
+                .pw(joinUserRequest.getPw())
+                .nickName(joinUserRequest.getNickName())
+                .gender(joinUserRequest.getGender())
+                .birthday(joinUserRequest.getBirthday())
+                .email(joinUserRequest.getEmail())
                 .build();
 
         UserResponseDto.User userResponse = UserResponseDto.User.builder()
                 .id(user.getId())
-                .userID(user.getUserID())
+                .userId(user.getUserId())
                 .nickName(user.getNickName())
-                .gender(user.getGender())
-                .birthday(user.getBirthday())
-                .email(user.getEmail())
                 .build();
         Response response = new Response();
         ResponseEntity<?> success = response.success(userResponse);

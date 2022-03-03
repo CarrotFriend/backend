@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 
 public class UserRequestDto {
     @Builder @Getter
-    public static class User{
-        private String userID;
+    public static class JoinUser {
+        private String userId;
         private String pw;
         private String nickName;
         private LocalDateTime birthday;

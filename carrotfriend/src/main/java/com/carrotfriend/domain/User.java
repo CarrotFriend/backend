@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Builder @Getter
@@ -14,7 +16,7 @@ public class User {
     private Long id;
 
     @Column
-    private String userID;
+    private String userId;
     @Column
     private String pw;
     @Column
@@ -25,4 +27,9 @@ public class User {
     private String email;
     @Enumerated(EnumType.STRING)
     private Gender gender;
+
+    @OneToMany(mappedBy = "user")
+    private List<UserToCategory> userToCategoryList = new ArrayList<>();
+
+
 }
