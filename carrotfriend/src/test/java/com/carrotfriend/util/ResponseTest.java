@@ -13,7 +13,7 @@ class ResponseTest {
     @Test
     public void userTest1(){
         UserRequestDto.JoinUser joinUserRequest = UserRequestDto.JoinUser.builder()
-                .userID("hong123")
+                .userId("hong123")
                 .pw("1234")
                 .nickName("garoo")
                 .gender(Gender.MAN)
@@ -22,7 +22,7 @@ class ResponseTest {
 
         User user = com.carrotfriend.domain.User.builder()
                 .id(1L)
-                .userID(joinUserRequest.getUserID())
+                .userID(joinUserRequest.getUserId())
                 .pw(joinUserRequest.getPw())
                 .nickName(joinUserRequest.getNickName())
                 .gender(joinUserRequest.getGender())
@@ -32,7 +32,7 @@ class ResponseTest {
 
         UserResponseDto.User userResponse = UserResponseDto.User.builder()
                 .id(user.getId())
-                .userID(user.getUserID())
+                .userId(user.getUserId())
                 .nickName(user.getNickName())
                 .build();
         Response response = new Response();

@@ -20,7 +20,7 @@ public class UserService {
 
     public UserResponseDto.User join(UserRequestDto.JoinUser joinUser){
         User user = userRepository.save(com.carrotfriend.domain.User.builder()
-                .userID(joinUser.getUserID())
+                .userId(joinUser.getUserId())
                 .pw(passwordEncoder.encode(joinUser.getPw()))
                 .nickName(joinUser.getNickName())
                 .email(joinUser.getEmail())
@@ -30,7 +30,7 @@ public class UserService {
 
         return UserResponseDto.User.builder()
                 .id(user.getId())
-                .userID(user.getUserID())
+                .userId(user.getUserId())
                 .nickName(user.getNickName())
                 .build();
     }
@@ -40,15 +40,15 @@ public class UserService {
 
         if(user == null) throw new UsernameNotFoundException("User Id : "+id+" not exist");
 
-        UserResponseDto.User userdto = UserResponseDto.User.builder()
+        UserResponseDto.User userDto = UserResponseDto.User.builder()
                 .id(user.getId())
-                .userID(user.getUserID())
+                .userId(user.getUserId())
                 .nickName(user.getNickName())
                 .build();
         for (UserToCategory userToCategory : user.getUserToCategoryList()) {
-            userdto.setCategory(userToCategory.getCategory());
+            userDto.setCategory(userToCategory.getCategory());
         }
-        return userdto;
+        return userDto;
     }
 
 }

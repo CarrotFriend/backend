@@ -4,14 +4,12 @@ import com.carrotfriend.domain.Gender;
 import lombok.Builder;
 import lombok.Getter;
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 
 public class UserRequestDto {
     @Builder @Getter
     public static class JoinUser {
-        private String userID;
+        private String userId;
         private String pw;
         private String nickName;
         private LocalDateTime birthday;
