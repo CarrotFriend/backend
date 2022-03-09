@@ -24,7 +24,6 @@ public class UserService {
                 .pw(passwordEncoder.encode(joinUser.getPw()))
                 .nickName(joinUser.getNickName())
                 .email(joinUser.getEmail())
-                .gender(joinUser.getGender())
                 .birthday(joinUser.getBirthday())
                 .build());
 

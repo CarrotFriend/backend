@@ -1,10 +1,9 @@
 package com.carrotfriend.dto;
 
-import com.carrotfriend.domain.Gender;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class UserRequestDto {
     @Builder @Getter
@@ -12,8 +11,7 @@ public class UserRequestDto {
         private String userId;
         private String pw;
         private String nickName;
-        private LocalDateTime birthday;
+        private LocalDate birthday;
         private String email;
-        private Gender gender;
     }
 }
