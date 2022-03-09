@@ -1,6 +1,5 @@
 package com.carrotfriend.util;
 
-import com.carrotfriend.domain.Gender;
 import com.carrotfriend.domain.User;
 import com.carrotfriend.dto.UserRequestDto;
 import com.carrotfriend.dto.UserResponseDto;
