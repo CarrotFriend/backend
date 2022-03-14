@@ -3,7 +3,7 @@ package com.carrotfriend.domain;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,11 +22,9 @@ public class User {
     @Column
     private String nickName;
     @Column
-    private LocalDateTime birthday;
+    private LocalDate birthday;
     @Column
     private String email;
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
 
     @OneToMany(mappedBy = "user")
     private List<UserToCategory> userToCategoryList = new ArrayList<>();
