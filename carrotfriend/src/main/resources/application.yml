@@ -30,6 +30,10 @@ server:
 
 jwt:
   header: Authorization
-  secret: 'dG95cHJvamVjdGluc3NhZnljYWxsZWRjYXJyb3RmcmllbmR3aXRoc2Vvbmdob29ua2ltYW5kanVzZW9uZ2hvbmc='
+  secret: 'dG95cHJvamVjdGludGhlc3NhZnljYWxsZWRjYXJyb3RmcmllbmR3aXRoc2Vvbmdob29ua2ltYW5kanVzZW9uZ2hvbmd0aGlzaXNqdXN0YWRkc2VudGVuY2Vmb3JsZW5ndGg='
 
 
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
