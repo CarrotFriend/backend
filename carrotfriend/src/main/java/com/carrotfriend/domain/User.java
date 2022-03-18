@@ -1,11 +1,13 @@
 package com.carrotfriend.domain;
 
+import com.carrotfriend.dto.user.UserDto;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Builder @Getter
@@ -28,6 +30,11 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<UserToCategory> userToCategoryList = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<Post> postList = new ArrayList<>();
 
+    public void addPost(Post post){
+        this.postList.add(post);
+    }
 
 }

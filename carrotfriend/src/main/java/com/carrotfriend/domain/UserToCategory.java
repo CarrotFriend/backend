@@ -21,7 +21,12 @@ public class UserToCategory {
     @JoinColumn(name = "categoryID")
     private Category category;
 
-
+    public static UserToCategory createRelWithUserAndCat(User user, Category category){
+        UserToCategory userToCategory = new UserToCategory();
+        userToCategory.setUser(user);
+        userToCategory.setCategory(category);
+        return userToCategory;
+    }
 
     public void setUser(User user){
         this.user = user;

@@ -36,10 +36,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/api-docs/**",
                 "/webjars/**",
                 "/h2-console/**",
-                "/favicon.com"
+                "/favicon.com",
+                "/auth/login",
+                "/user/join"
         );
     }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.httpBasic().disable()
@@ -57,9 +58,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
-                .and()
-                .authorizeRequests()
-                .antMatchers("/**").authenticated()
+//                .and()
+//                .authorizeRequests()
+//                .anyRequest().authenticated()
 
                 .and()
                 .addFilterBefore(new JwtFilter(jwtTokenProvider, redisUtil), UsernamePasswordAuthenticationFilter.class);
