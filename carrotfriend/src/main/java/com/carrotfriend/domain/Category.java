@@ -1,6 +1,5 @@
 package com.carrotfriend.domain;
 
-import io.swagger.v3.oas.annotations.extensions.Extension;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,10 +14,11 @@ import java.util.List;
 public class Category {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String code;
+    private Long code;
     private String name;
 
     @OneToMany(mappedBy = "category")
     private List<UserToCategory> userToCategoryList = new ArrayList<>();
-
+    @OneToMany(mappedBy = "category")
+    private List<Post> postList = new ArrayList<>();
 }

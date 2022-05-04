@@ -81,13 +81,13 @@ public class JwtTokenProvider implements InitializingBean {
         String accessToken = Jwts.builder()
                 .setSubject(auth.getName())
                 .claim(AUTHORITIES_KEY, authorities)
-                .signWith(key, SignatureAlgorithm.ES512)
+                .signWith(key)
                 .setIssuedAt(now)
                 .setExpiration(accessTime)
                 .compact();
 
         String refreshToken = Jwts.builder()
-                .signWith(key, SignatureAlgorithm.ES512)
+                .signWith(key)
                 .setIssuedAt(now)
                 .setExpiration(refreshTime)
                 .compact();

@@ -18,10 +18,15 @@ public class UserToCategory {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "categoryID")
+    @JoinColumn(name = "categoryCode")
     private Category category;
 
-
+    public static UserToCategory createRelWithUserAndCat(User user, Category category){
+        UserToCategory userToCategory = new UserToCategory();
+        userToCategory.setUser(user);
+        userToCategory.setCategory(category);
+        return userToCategory;
+    }
 
     public void setUser(User user){
         this.user = user;
