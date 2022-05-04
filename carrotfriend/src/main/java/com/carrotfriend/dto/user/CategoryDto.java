@@ -1,19 +1,24 @@
 package com.carrotfriend.dto.user;
 
 import com.carrotfriend.domain.Category;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Builder
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class CategoryDto {
-    private Long id;
-    private String code;
+    @JsonProperty
+    private Long code;
+    @JsonProperty
     private String name;
 
     public static CategoryDto of(Category category){
         return CategoryDto.builder()
-                .id(category.getId())
                 .code(category.getCode())
                 .name(category.getName())
                 .build();

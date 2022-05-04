@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -27,7 +28,15 @@ public class Post {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="userId")
     private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="categoryCode")
+    private Category category;
 
+
+    public void setCategory(Category category){
+        this.category = category;
+        category.getPostList().add(this);
+    }
     public void setUser(User user){
         this.user = user;
         user.addPost(this);
@@ -44,6 +53,7 @@ public class Post {
                 .title(createDto.getTitle())
                 .content(createDto.getContent())
                 .regDate(LocalDate.now())
+                .imageList(Collections.emptyList())
                 .views(0)
                 .user(User.builder().userId(createDto.getUserId()).build())
                 .build();

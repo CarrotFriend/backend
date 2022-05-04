@@ -6,7 +6,6 @@ import com.carrotfriend.domain.UserToCategory;
 import com.carrotfriend.dto.user.CategoryDto;
 import com.carrotfriend.dto.user.JoinDto;
 import com.carrotfriend.dto.user.UserDto;
-import com.carrotfriend.repository.CategoryRepository;
 import com.carrotfriend.repository.UserRepository;
 import com.carrotfriend.repository.UserToCategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,12 +22,12 @@ import java.util.List;
 @Transactional
 public class UserService {
     private final UserRepository userRepository;
-    private final CategoryRepository categoryRepository;
+    private final CategoryService categoryService;
     private final PasswordEncoder passwordEncoder;
     private final UserToCategoryRepository userToCategoryRepository;
 
     public UserDto join(JoinDto joinUser){
-        User user = userRepository.save(com.carrotfriend.domain.User.builder()
+        User user = userRepository.save(User.builder()
                 .userId(joinUser.getUserId())
                 .pw(passwordEncoder.encode(joinUser.getPw()))
                 .nickName(joinUser.getNickName())
@@ -38,35 +37,36 @@ public class UserService {
                 .build());
         return UserDto.of(user);
     }
-    public UserDto insertCategory(UserDto userDto, CategoryDto categoryDto){
-        User user = findByUserId(userDto.getUserId());
-        Category category = categoryRepository.findCategoryByCodeAndName(categoryDto.getCode(), categoryDto.getName()).orElseGet(null);
-        UserToCategory userToCategory = UserToCategory.createRelWithUserAndCat(user, category);
-        userToCategoryRepository.save(userToCategory);
-        return UserDto.of(user);
+
+    public void insertCategory(UserDto userDto, List<CategoryDto> categoryDtos) {
+        User user = findById(userDto.getId());
+        categoryDtos.forEach(categoryDto->{
+            Category category = categoryService.findCategoryByCodeAndName(categoryDto.getCode(), categoryDto.getName());
+            userToCategoryRepository.save(UserToCategory.createRelWithUserAndCat(user, category));
+        });
     }
+
     public boolean deleteUser(UserDto userDto){
         userRepository.delete(findByUserId(userDto.getUserId()));
         return true;
     }
-    public UserDto deleteCategory(UserDto userDto, CategoryDto categoryDto){
-        User user = findByUserId(userDto.getUserId());
-        List<UserToCategory> userToCategoryList = user.getUserToCategoryList();
-        for(UserToCategory userToCategory : userToCategoryList){
-            Category category = userToCategory.getCategory();
-            if(category.getCode().equals(categoryDto.getCode())
-            && category.getName().equals(categoryDto.getName())){
-                userToCategoryRepository.delete(userToCategory);
-                break;
-            }
-        }
-        return UserDto.of(findByUserId(userDto.getUserId()));
+
+    public UserDto deleteCategory(UserDto userDto, List<CategoryDto> categoryDtos){
+        User user = findById(userDto.getId());
+        categoryDtos.forEach(categoryDto->{
+            Category category = categoryService.findOneByCode(categoryDto.getCode());
+            userToCategoryRepository.deleteUserToCategoryByUserIdAndCategoryId(user.getId(), category.getCode());
+        });
+
+        return UserDto.of(findById(userDto.getId()));
     }
+
     public User findById(Long id){
         User user = userRepository.findById(id).orElseGet(null);
         if(user == null) throw new UsernameNotFoundException("User Id : "+id+" not exist");
         return user;
     }
+
     public User findByUserId(String userId){
         User user = userRepository.findByUserId(userId).orElse(null);
         if(user == null) throw new UsernameNotFoundException("Not Found this Id");

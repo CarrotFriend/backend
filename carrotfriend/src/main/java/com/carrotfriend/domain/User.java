@@ -1,13 +1,11 @@
 package com.carrotfriend.domain;
 
-import com.carrotfriend.dto.user.UserDto;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Builder @Getter
@@ -17,7 +15,7 @@ public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(unique = true)
     private String userId;
     @Column
     private String pw;

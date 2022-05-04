@@ -17,8 +17,7 @@ import java.io.IOException;
 
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
-    @Value("${jwt.header}")
-    public static String AUTHORIZATION;
+    public static final String AUTHORIZATION = "Authorization";
 
     private final JwtTokenProvider provider;
     private final RedisUtil redisUtil;

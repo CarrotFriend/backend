@@ -1,6 +1,5 @@
 package com.carrotfriend.dto.user;
 
-import com.carrotfriend.domain.User;
 import lombok.Getter;
 
 import java.time.LocalDate;

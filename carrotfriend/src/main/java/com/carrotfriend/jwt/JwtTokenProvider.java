@@ -101,7 +101,6 @@ public class JwtTokenProvider implements InitializingBean {
     }
 
     public String resolveToken(HttpServletRequest request){
-        logger.info("headers : "+request.getHeader("content-type"));
         String header = request.getHeader(JwtFilter.AUTHORIZATION);
         if(StringUtils.hasText(header) && header.startsWith(GRANT_TYPE)){
             return header.substring(7);
