@@ -1,6 +1,5 @@
 package com.carrotfriend.dto.post;
 
-import com.carrotfriend.domain.Image;
 import lombok.Getter;
 
 import java.util.List;

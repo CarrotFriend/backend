@@ -32,7 +32,6 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    @Parameter(in = ParameterIn.HEADER,  required = true, name = "Authorization", description = "Access Token")
     public ResponseEntity<?> logOut(@RequestBody LogoutDto logoutDto){
         return response.success(authService.logOut(logoutDto)?"success":"failed");
     }

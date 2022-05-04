@@ -1,10 +1,12 @@
 package com.carrotfriend.dto.post;
 
-import com.carrotfriend.domain.Image;
 import com.carrotfriend.domain.Post;
+import com.carrotfriend.dto.user.CategoryDto;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,14 +18,18 @@ public class PostDto {
     private String title;
     private List<ImageDto> imageList;
     private String content;
+    private CategoryDto category;
 
     public static PostDto of(Post post){
-        return PostDto.builder()
+        PostDto postDto = PostDto.builder()
                 .id(post.getId())
                 .userId(post.getUser().getUserId())
                 .title(post.getTitle())
-                .imageList(post.getImageList().stream().map(i->ImageDto.of(i)).collect(Collectors.toList()))
                 .content(post.getContent())
+                .imageList(Collections.emptyList())
+                .category(CategoryDto.of(post.getCategory()))
                 .build();
+        post.getImageList().forEach(i->postDto.getImageList().add(ImageDto.of(i)));
+        return postDto;
     }
 }

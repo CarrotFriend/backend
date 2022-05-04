@@ -3,7 +3,6 @@ package com.carrotfriend.service;
 import com.carrotfriend.domain.User;
 import com.carrotfriend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,6 +1,6 @@
 package com.carrotfriend.dto.post;
 
-import com.carrotfriend.domain.Image;
+import com.carrotfriend.dto.user.CategoryDto;
 import lombok.Getter;
 
 import java.util.List;
@@ -11,4 +11,5 @@ public class CreateDto {
     private String title;
     private List<ImageDto> imageList;
     private String content;
+    private CategoryDto category;
 }

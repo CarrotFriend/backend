@@ -12,18 +12,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class AuthService {
     private final UserService userService;
     private final JwtTokenProvider provider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final RedisUtil redisUtil;
+
     public JwtDto logIn(LoginDto loginDto){
         User user = userService.findByUserId(loginDto.getUserId());
 
@@ -43,16 +43,15 @@ public class AuthService {
         redisUtil.delete(auth.getName());
         return true;
     }
+
     private boolean validate(String accessToken, String refreshToken){
         if(!provider.validateToken(accessToken) && !provider.validateToken(refreshToken))
             return false;
         return true;
     }
-    public JwtDto newJwt(NewTokenDto newTokenDto){
-        if(!validate(newTokenDto.getAccessToken(), newTokenDto.getRefreshToken()))
+    public JwtDto newJwt(NewTokenDto newTokenDto) {
+        if (!validate(newTokenDto.getAccessToken(), newTokenDto.getRefreshToken()))
             return null;
         return null;
     }
-
-
 }

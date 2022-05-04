@@ -1,17 +1,19 @@
 package com.carrotfriend.dto.user;
 
-import com.carrotfriend.domain.Category;
 import com.carrotfriend.domain.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Builder
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDto{
     @JsonProperty
     private Long id;
