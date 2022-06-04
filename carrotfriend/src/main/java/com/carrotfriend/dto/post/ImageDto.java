@@ -8,15 +8,11 @@ import lombok.Getter;
 @Builder
 public class ImageDto {
     private Long id;
-    private String locate;
-    private String imageName;
-    private Long fileSize;
+    private String src;
     public static ImageDto of(Image image){
         return ImageDto.builder()
                 .id(image.getId())
-                .locate(image.getLocate())
-                .fileSize(image.getFileSize())
-                .imageName(image.getImageName())
+                .src(image.getSrc())
                 .build();
     }
 }

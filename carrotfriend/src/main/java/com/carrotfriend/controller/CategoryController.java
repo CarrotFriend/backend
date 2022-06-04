@@ -20,11 +20,11 @@ public class CategoryController {
     public ResponseEntity<?> findOneByCode(@PathVariable Long code){
         return response.success(CategoryDto.of(categoryService.findOneByCode(code)));
     }
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<?> findAll(){
         return response.success(categoryService.findAll());
     }
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<?> createCategory(@RequestBody CategoryDto categoryDto){
         return response.success(categoryService.createCategory(categoryDto));
     }

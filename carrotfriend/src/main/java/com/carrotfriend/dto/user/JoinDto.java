@@ -1,10 +1,11 @@
 package com.carrotfriend.dto.user;
 
+import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
 
-@Getter
+@Getter @Builder
 public class JoinDto {
     private String userId;
     private String pw;

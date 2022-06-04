@@ -26,7 +26,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserToCategoryRepository userToCategoryRepository;
 
-    public UserDto join(JoinDto joinUser){
+    public User join(JoinDto joinUser){
         User user = userRepository.save(User.builder()
                 .userId(joinUser.getUserId())
                 .pw(passwordEncoder.encode(joinUser.getPw()))
@@ -35,7 +35,7 @@ public class UserService {
                 .birthday(joinUser.getBirthday())
                 .userToCategoryList(Collections.emptyList())
                 .build());
-        return UserDto.of(user);
+        return user;
     }
 
     public void insertCategory(UserDto userDto, List<CategoryDto> categoryDtos) {

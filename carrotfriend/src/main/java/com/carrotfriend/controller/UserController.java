@@ -23,10 +23,15 @@ public class UserController {
     private final UserService userService;
     private final Response response;
 
+//    @Operation(summary = "유저 조회", description = "아이디로 1명 조회")
+//    @GetMapping("/{id}")
+//    public ResponseEntity<?> findUserById(@Parameter(description = "id", required = true, example = "1") @PathVariable Long id){
+//        return response.success(UserDto.of(userService.findById(id)));
+//    }
     @Operation(summary = "유저 조회", description = "아이디로 1명 조회")
-    @GetMapping("/{id}")
-    public ResponseEntity<?> findUserById(@Parameter(description = "id", required = true, example = "1") @PathVariable Long id){
-        return response.success(UserDto.of(userService.findById(id)));
+    @GetMapping("/{userId}")
+    public ResponseEntity<?> findUserById(@Parameter(description = "id", required = true, example = "username") @PathVariable String userId){
+        return response.success(UserDto.of(userService.findByUserId(userId)));
     }
     @Operation(summary = "회원 가입", description = "")
     @PostMapping("/join")

@@ -5,6 +5,7 @@ import com.carrotfriend.dto.auth.JwtDto;
 import com.carrotfriend.dto.auth.LoginDto;
 import com.carrotfriend.dto.auth.LogoutDto;
 import com.carrotfriend.dto.auth.NewTokenDto;
+import com.carrotfriend.exception.UserPasswordNotMatchedException;
 import com.carrotfriend.jwt.JwtToken;
 import com.carrotfriend.jwt.JwtTokenProvider;
 import com.carrotfriend.util.RedisUtil;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,9 +25,11 @@ public class AuthService {
     private final JwtTokenProvider provider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final RedisUtil redisUtil;
+    private final PasswordEncoder passwordEncoder;
 
     public JwtDto logIn(LoginDto loginDto){
         User user = userService.findByUserId(loginDto.getUserId());
+        if(!passwordEncoder.matches(loginDto.getPw(),user.getPw())) throw new UserPasswordNotMatchedException("비밀번호 매칭 실패");
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginDto.getUserId(), loginDto.getPw());
         Authentication auth = authenticationManagerBuilder.getObject().authenticate(token);
