@@ -12,4 +12,5 @@ public class CreateDto {
     private List<ImageDto> imageList;
     private String content;
     private CategoryDto category;
+    private List<TagDTO> tagList;
 }
