@@ -6,11 +6,8 @@ springdoc:
     path: /api-docs
 
 spring:
-  datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://127.0.0.1:3306/carrotfriends?characterEncoding=UTF-8&passwordCharacterEncoding=utf8&serverTimezone=UTC
-    username: carrot
-    password: 1234
+  profiles:
+    include: secure
   jpa:
     hibernate:
       ddl-auto: create
@@ -27,11 +24,6 @@ spring:
 
 server:
   port: 8080
-
-jwt:
-  header: 'Authorization'
-  secret: 'dG95cHJvamVjdGludGhlc3NhZnljYWxsZWRjYXJyb3RmcmllbmR3aXRoc2Vvbmdob29ua2ltYW5kanVzZW9uZ2hvbmd0aGlzaXNqdXN0YWRkc2VudGVuY2Vmb3JsZW5ndGg='
-
 
 logging:
   level:
