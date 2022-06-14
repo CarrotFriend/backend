@@ -14,11 +14,11 @@ import java.util.List;
 public class Category {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long code;
+    @Column(unique = true)
     private String name;
 
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<UserToCategory> userToCategoryList = new ArrayList<>();
     @OneToMany(mappedBy = "category")
-    private List<UserToCategory> userToCategoryList = new ArrayList<>();
-    @OneToMany(mappedBy = "category")
-    private List<Post> postList = new ArrayList<>();
+    private final List<Post> postList = new ArrayList<>();
 }
