@@ -28,7 +28,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
 
     public JwtDto logIn(LoginDto loginDto){
-        User user = userService.findByUserId(loginDto.getUserId());
+        User user = userService.getUserByUserId(loginDto.getUserId());
         if(!passwordEncoder.matches(loginDto.getPw(),user.getPw())) throw new UserPasswordNotMatchedException("비밀번호 매칭 실패");
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginDto.getUserId(), loginDto.getPw());
