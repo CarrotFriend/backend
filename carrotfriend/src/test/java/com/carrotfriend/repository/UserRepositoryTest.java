@@ -7,14 +7,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
@@ -38,8 +35,6 @@ class UserRepositoryTest {
                 .pw("test01")
                 .role(Role.USER)
                 .regDate(LocalDateTime.now())
-                .postList(Collections.emptyList())
-                .userToCategoryList(Collections.emptyList())
                 .nickName("test01")
                 .email("test01")
                 .birthday(LocalDate.now())
@@ -50,8 +45,6 @@ class UserRepositoryTest {
                 .pw("test02")
                 .role(Role.USER)
                 .regDate(LocalDateTime.now())
-                .postList(Collections.emptyList())
-                .userToCategoryList(Collections.emptyList())
                 .nickName("test02")
                 .email("test02")
                 .birthday(LocalDate.now())
@@ -62,8 +55,6 @@ class UserRepositoryTest {
                 .pw("admin")
                 .role(Role.ADMIN)
                 .regDate(LocalDateTime.now())
-                .postList(Collections.emptyList())
-                .userToCategoryList(Collections.emptyList())
                 .nickName("admin")
                 .email("admin")
                 .birthday(LocalDate.now())
@@ -77,8 +68,6 @@ class UserRepositoryTest {
                 .pw("testPw")
                 .role(Role.USER)
                 .regDate(LocalDateTime.now())
-                .postList(Collections.emptyList())
-                .userToCategoryList(Collections.emptyList())
                 .nickName("testNick")
                 .email("testEmail")
                 .birthday(LocalDate.now())
@@ -102,7 +91,8 @@ class UserRepositoryTest {
 
     @Test
     public void findByEmail(){
-
+        User user = repository.findByEmail("test02").orElseThrow(() -> new UserNotFoundException("존재하지 않는 유저입니다."));
+        infoUser(user);
     }
 
     private void infoUser(User user){
