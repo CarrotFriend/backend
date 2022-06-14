@@ -18,14 +18,14 @@ public class CategoryController {
 
     @GetMapping("/{code}")
     public ResponseEntity<?> findOneByCode(@PathVariable Long code){
-        return response.success(CategoryDto.of(categoryService.findOneByCode(code)));
+        return response.success(CategoryDto.of(categoryService.getOneById(code)));
     }
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<?> findAll(){
         return response.success(categoryService.findAll());
     }
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<?> createCategory(@RequestBody CategoryDto categoryDto){
-        return response.success(categoryService.createCategory(categoryDto));
+        return response.success(CategoryDto.of(categoryService.createCategory(categoryDto)));
     }
 }

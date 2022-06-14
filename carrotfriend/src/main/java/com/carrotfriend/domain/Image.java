@@ -14,9 +14,7 @@ import javax.persistence.*;
 public class Image {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String imageName;
-    private String locate;
-    private Long fileSize;
+    private String src;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="postId")
@@ -29,9 +27,7 @@ public class Image {
 
     public static Image toEntity(ImageDto imageDto){
         return Image.builder()
-                .imageName(imageDto.getImageName())
-                .fileSize(imageDto.getFileSize())
-                .locate(imageDto.getLocate())
+                .src(imageDto.getSrc())
                 .build();
     }
 }

@@ -25,13 +25,15 @@ public class Post {
 
     @OneToMany(mappedBy = "post")
     private List<Image> imageList = new ArrayList<>();
+    @OneToMany(mappedBy = "tag")
+    private List<PostTag> postTagList = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="userId")
     private User user;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="categoryCode")
     private Category category;
-
 
     public void setCategory(Category category){
         this.category = category;
@@ -44,6 +46,7 @@ public class Post {
     public void addImage(Image image){
         this.imageList.add(image);
     }
+    public void addPostTag(PostTag postTag){this.postTagList.add(postTag);}
     public void increaseViews(){
         this.views++;
     }
