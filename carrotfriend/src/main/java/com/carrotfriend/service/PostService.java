@@ -71,7 +71,7 @@ public class PostService {
     @Transactional
     public Post update(UpdateDto updateDto){
         Post post = getPostById(updateDto.getId());
-        post.setCategory(categoryService.getOneById(updateDto.getCategory().getId()));
+        post.setCategory(categoryService.getOneById(updateDto.getCategory().getCategoryId()));
         post.setContent(updateDto.getContent());
         post.setTitle(updateDto.getTitle());
         post.setTagList(updateDto.getTagList().stream().map(t->t.getText()).collect(Collectors.toList()));
