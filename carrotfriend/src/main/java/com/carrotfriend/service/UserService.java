@@ -1,30 +1,24 @@
 package com.carrotfriend.service;
 
-import com.carrotfriend.domain.Category;
 import com.carrotfriend.domain.Role;
 import com.carrotfriend.domain.User;
 import com.carrotfriend.domain.UserToCategory;
 import com.carrotfriend.dto.user.CategoryDto;
-import com.carrotfriend.dto.user.JoinCheckDto;
 import com.carrotfriend.dto.user.JoinDto;
 import com.carrotfriend.dto.user.UserDto;
-import com.carrotfriend.exception.UserNotFoundException;
 import com.carrotfriend.repository.UserRepository;
 import com.carrotfriend.repository.UserToCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,6 +45,7 @@ public class UserService {
                 .role(Role.USER)
                 .regDate(LocalDateTime.now())
                 .image(null)
+                .temperature(36.5)
                 .birthday(joinUser.getBirthday())
                 .build());
         return user;
@@ -66,7 +61,7 @@ public class UserService {
             else userDto.getCategoryList().remove(CategoryDto.of(c.getCategory()));
         });
 
-        categoryService.getCategoriesById(userDto.getCategoryList().stream().map(c->c.getId()).collect(Collectors.toList()))
+        categoryService.getCategoriesById(userDto.getCategoryList().stream().map(c->c.getCategoryId()).collect(Collectors.toList()))
                 .forEach(c->willAdd.add(UserToCategory.createRelWithUserAndCat(user, c)));
 
         logger.info("willRemove : {}",willRemove);
@@ -99,8 +94,18 @@ public class UserService {
                 .getSingleResult();
     }
 
-    public List<User> getListForJoin() {
-        return userRepository.findAll();
+    public boolean checkNickname(String nickname) {
+        return em.createQuery("select count(u) from User u where u.nickName =:nickname", Long.class)
+                .setParameter("nickname", nickname).getSingleResult() == 0 ? true : false;
+    }
 
+    public boolean checkEmail(String email) {
+        return em.createQuery("select count(u) from User u where u.email =:email", Long.class)
+                .setParameter("email", email).getSingleResult() == 0 ? true : false;
+    }
+
+    public boolean checkUserId(String userId) {
+        return em.createQuery("select count(u) from User u where u.userId =:userId", Long.class)
+                .setParameter("userId", userId).getSingleResult() == 0 ? true : false;
     }
 }
