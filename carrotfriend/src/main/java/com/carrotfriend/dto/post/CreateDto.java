@@ -7,10 +7,10 @@ import java.util.List;
 
 @Getter
 public class CreateDto {
-    private String userId;
+    private Long userId;
     private String title;
     private List<ImageDto> imageList;
     private String content;
     private CategoryDto category;
-    private List<TagDTO> tagList;
+    private List<TagDto> tagList;
 }

@@ -19,6 +19,7 @@ public class UserDto{
     private String nickName;
     private String email;
     private String regDate;
+    private Double temperature;
     private String birthday;
     private ImageDto image;
     private List<CategoryDto> categoryList;
@@ -32,6 +33,7 @@ public class UserDto{
                 .regDate(user.getRegDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")))
                 .birthday(user.getBirthday().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .image(ImageDto.of(user.getImage()))
+                .temperature(user.getTemperature())
                 .categoryList(user.getUserToCategoryList()
                                     .stream()
                                     .map(c->CategoryDto.of(c.getCategory()))

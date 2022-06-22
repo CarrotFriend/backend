@@ -4,7 +4,6 @@ import com.carrotfriend.domain.Post;
 import com.carrotfriend.domain.User;
 import com.carrotfriend.domain.UserToCategory;
 import com.carrotfriend.dto.user.CategoryDto;
-import com.carrotfriend.dto.user.JoinCheckDto;
 import com.carrotfriend.dto.user.JoinDto;
 import com.carrotfriend.dto.user.UserDto;
 import org.junit.jupiter.api.Assertions;
@@ -16,8 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -64,12 +61,7 @@ class UserServiceTest {
 
 //        Assertions.assertEquals(1L, res.getId());
     }
-    @Test
-    void joinCheck(){
-        JoinCheckDto joinCheckDto = JoinCheckDto.of(userService.getListForJoin());
-        joinCheckDto.getUserIdList().forEach(i-> System.out.println("userId: "+i));
-        joinCheckDto.getEmailList().forEach(i-> System.out.println("userEmail: "+i));
-    }
+
     @Test
     void deleteUser() {
     }
@@ -78,7 +70,7 @@ class UserServiceTest {
     @Test
     void 카테고리_중복_추가(){
         //기존 카테고리 1,2,3 에서 중복되는 1 추가
-         CategoryDto categoryDto = CategoryDto.builder().id(1L).name("1").build();
+         CategoryDto categoryDto = CategoryDto.builder().categoryId(1L).name("1").build();
          User user1 = userService.getUserById(1L);
          UserDto of = UserDto.of(user1);
          of.getCategoryList().add(categoryDto);
@@ -91,7 +83,7 @@ class UserServiceTest {
     @Test
     void 카테고리_추가(){
         // 카테고리 4 추가
-        CategoryDto categoryDto = CategoryDto.builder().id(4L).name("4").build();
+        CategoryDto categoryDto = CategoryDto.builder().categoryId(4L).name("4").build();
         categoryService.createCategory(categoryDto);
 
         UserDto of = UserDto.of(userService.getUserById(1L));
