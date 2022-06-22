@@ -1,5 +1,6 @@
 package com.carrotfriend.domain;
 
+import com.carrotfriend.dto.user.CategoryDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,4 +22,9 @@ public class Category {
     private final List<UserToCategory> userToCategoryList = new ArrayList<>();
     @OneToMany(mappedBy = "category")
     private final List<Post> postList = new ArrayList<>();
+
+    public static Category of(CategoryDto categoryDto){
+        Category category = new Category(categoryDto.getCategoryId(), categoryDto.getName());
+        return category;
+    }
 }

@@ -27,6 +27,7 @@ public class User {
     private LocalDateTime regDate;
     @Enumerated(EnumType.STRING)
     private Role role;
+    private Double temperature;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<UserToCategory> userToCategoryList = new ArrayList<>();
@@ -38,6 +39,14 @@ public class User {
 
     public void addPost(Post post) {
         this.postList.add(post);
+    }
+
+    public void modifyTemperaure(){
+        //need to implementation
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void removeCategory(UserToCategory c) {

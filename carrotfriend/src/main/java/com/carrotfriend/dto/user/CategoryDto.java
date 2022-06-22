@@ -10,12 +10,12 @@ import lombok.*;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class CategoryDto {
-    private Long id;
+    private Long categoryId;
     private String name;
 
     public static CategoryDto of(Category category){
         return CategoryDto.builder()
-                .id(category.getId())
+                .categoryId(category.getId())
                 .name(category.getName())
                 .build();
     }

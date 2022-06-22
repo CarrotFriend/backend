@@ -1,5 +1,6 @@
 package com.carrotfriend.controller;
 
+import com.carrotfriend.domain.Post;
 import com.carrotfriend.dto.post.CreateDto;
 import com.carrotfriend.dto.post.PostDto;
 import com.carrotfriend.service.PostService;
@@ -17,7 +18,7 @@ public class PostController {
 
     @PostMapping("/")
     public ResponseEntity<?> create(@RequestBody CreateDto createDto){
-        return response.success(postService.save(createDto));
+        return response.success(PostDto.of(postService.save(Post.of(createDto))));
     }
     @GetMapping("/category/{id}")
     public ResponseEntity<?> findAllWithCategory(@PathVariable Long id){
@@ -34,13 +35,9 @@ public class PostController {
         return null;
     }
 
-    @GetMapping("/list/{offset}")
-    public ResponseEntity<?> getList(@PathVariable int offset){
-        return response.success(postService.getPostList(offset));
-    }
 
     @GetMapping("/detail/{id}")
-    public ResponseEntity<?> getOne(@PathVariable Long id){
-        return response.success(PostDto.of(postService.getPostById(id)));
+    public ResponseEntity<?> read(@PathVariable Long id){
+        return response.success(PostDto.of(postService.read(id)));
     }
 }

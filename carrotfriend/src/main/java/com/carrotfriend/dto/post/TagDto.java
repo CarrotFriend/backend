@@ -1,2 +1,18 @@
-package com.carrotfriend.dto.post;public class TagDto {
+package com.carrotfriend.dto.post;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class TagDto {
+    private String text;
+
+   public static TagDto of(String text){
+        return TagDto.builder().text(text).build();
+    }
 }

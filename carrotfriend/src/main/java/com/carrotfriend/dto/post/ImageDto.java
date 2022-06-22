@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ImageDto {
-    private Long id;
+    private Long imageId;
     private String src;
     public static ImageDto of(Image image){
         if(image == null) return null;
         return ImageDto.builder()
-                .id(image.getId())
+                .imageId(image.getId())
                 .src(image.getSrc())
                 .build();
     }

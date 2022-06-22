@@ -31,10 +31,6 @@ public class UserController {
         return response.success(UserDto.of(userService.join(user)));
     }
 
-    @GetMapping("/check-list")
-    public ResponseEntity<?> checkList(){
-        return response.success(JoinCheckDto.of(userService.getListForJoin()));
-    }
     @PutMapping("/modify")
     public ResponseEntity<?> modifyUser(@RequestBody UpdateDto updateDto){
         return null;

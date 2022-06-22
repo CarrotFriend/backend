@@ -20,12 +20,9 @@ public class Image {
     @JoinColumn(name="postId")
     private Post post;
 
-    public void setPost(Post post){
-        this.post = post;
-        post.addImage(this);
-    }
 
-    public static Image toEntity(ImageDto imageDto){
+
+    public static Image of(ImageDto imageDto){
         return Image.builder()
                 .src(imageDto.getSrc())
                 .build();
