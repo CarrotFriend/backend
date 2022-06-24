@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,25 +16,30 @@ import java.util.List;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode
 public class Post {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private String content;
-    private LocalDate regDate;
-    private int views;
+    private LocalDateTime regDate;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> imageList = new ArrayList<>();
+    @Transient
+    private List<String> tagList = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="userId")
     private User user;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="categoryCode")
+    @JoinColumn(name="categoryId")
     private Category category;
 
-
     public void setCategory(Category category){
+        if(this.category != null){
+            this.category.getPostList().remove(this);
+        }
         this.category = category;
         category.getPostList().add(this);
     }
@@ -43,21 +49,21 @@ public class Post {
     }
     public void addImage(Image image){
         this.imageList.add(image);
+        image.setPost(this);
     }
-    public void increaseViews(){
-        this.views++;
-    }
+    public void addTag(String tag){this.tagList.add(tag);}
 
-    public static Post toEntity(CreateDto createDto){
-        Post post = Post.builder()
-                .title(createDto.getTitle())
-                .content(createDto.getContent())
-                .regDate(LocalDate.now())
-                .imageList(Collections.emptyList())
-                .views(0)
-                .user(User.builder().userId(createDto.getUserId()).build())
-                .build();
-        createDto.getImageList().stream().forEach(c->post.getImageList().add(Image.toEntity(c)));
+    public static Post of(CreateDto createDto){
+        Post post = new Post();
+        User user = new User();
+        user.setId(createDto.getUserId());
+        post.setUser(user);
+        post.setRegDate(LocalDateTime.now());
+        post.setTitle(createDto.getTitle());
+        post.setCategory(Category.of(createDto.getCategory()));
+        post.setContent(createDto.getContent());
+        createDto.getTagList().stream().map(t->t.getText()).forEach(t->post.addTag(t));
+        createDto.getImageList().stream().map(i->Image.of(i)).forEach(i->post.addImage(i));
         return post;
     }
 }

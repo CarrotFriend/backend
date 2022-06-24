@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,22 +18,38 @@ public class User {
 
     @Column(unique = true)
     private String userId;
-    @Column
     private String pw;
-    @Column
+    @Column(unique = true)
     private String nickName;
-    @Column
     private LocalDate birthday;
-    @Column
+    @Column(unique = true)
     private String email;
+    private LocalDateTime regDate;
+    @Enumerated(EnumType.STRING)
+    private Role role;
+    private Double temperature;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<UserToCategory> userToCategoryList = new ArrayList<>();
     @OneToMany(mappedBy = "user")
-    private List<UserToCategory> userToCategoryList = new ArrayList<>();
-    @OneToMany(mappedBy = "user")
-    private List<Post> postList = new ArrayList<>();
+    private final List<Post> postList = new ArrayList<>();
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JoinColumn(name="imageId", nullable = true)
+    private Image image;
 
-    public void addPost(Post post){
+    public void addPost(Post post) {
         this.postList.add(post);
     }
 
+    public void modifyTemperaure(){
+        //need to implementation
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void removeCategory(UserToCategory c) {
+        this.userToCategoryList.remove(c);
+    }
 }

@@ -1,27 +1,27 @@
 package com.carrotfriend.dto.user;
 
 import com.carrotfriend.domain.User;
+import com.carrotfriend.dto.post.ImageDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Builder
-@Getter
+@Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDto{
-    @JsonProperty
     private Long id;
-    @JsonProperty
     private String userId;
-    @JsonProperty
     private String nickName;
-    @JsonProperty
+    private String email;
+    private String regDate;
+    private Double temperature;
+    private String birthday;
+    private ImageDto image;
     private List<CategoryDto> categoryList;
 
     public static UserDto of(User user){
@@ -29,6 +29,11 @@ public class UserDto{
                 .id(user.getId())
                 .userId(user.getUserId())
                 .nickName(user.getNickName())
+                .email(user.getEmail())
+                .regDate(user.getRegDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")))
+                .birthday(user.getBirthday().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                .image(ImageDto.of(user.getImage()))
+                .temperature(user.getTemperature())
                 .categoryList(user.getUserToCategoryList()
                                     .stream()
                                     .map(c->CategoryDto.of(c.getCategory()))
