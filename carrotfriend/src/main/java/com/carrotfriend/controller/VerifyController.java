@@ -21,20 +21,17 @@ public class VerifyController {
 
     @GetMapping("/userid/{userId}")
     public ResponseEntity<?> checkUserId(@PathVariable String userId){
-        return response.success(isDuplicated(userService.checkUserId(userId)));
+        userService.checkUserId(userId);
+        return response.success("ok");
     }
     @GetMapping("/email/{email}")
     public ResponseEntity<?> checkEmail(@PathVariable String email){
-        return response.success(isDuplicated(userService.checkEmail(email)));
+        userService.checkEmail(email);
+        return response.success("ok");
     }
     @GetMapping("/nickname/{nickname}")
     public ResponseEntity<?> checkNickname(@PathVariable String nickname){
-        return response.success(isDuplicated(userService.checkNickname(nickname)));
-    }
-
-    private Map<String, Integer> isDuplicated(boolean flag){
-        Map<String, Integer> data = new HashMap<>();
-        data.put("code",flag?200:400);
-        return data;
+        userService.checkNickname(nickname);
+        return response.success("ok");
     }
 }

@@ -32,8 +32,8 @@ public class JwtTokenProvider implements InitializingBean {
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
     private static final String AUTHORITIES_KEY = "auth";
     private static final String GRANT_TYPE = "Bearer";
-    private static final long ACCESS_TOKEN_EXPIRATION = 30*60*1000;
-    private static final long REFRESH_TOKEN_EXPIRATION = 7*24*60*60*1000;
+    private static final long ACCESS_TOKEN_EXPIRATION = 30L*60*1000;
+    private static final long REFRESH_TOKEN_EXPIRATION = 15L*24*60*60*1000;
 
     @Value("${jwt.secret}")
     private String secret;
@@ -88,6 +88,7 @@ public class JwtTokenProvider implements InitializingBean {
 
         String refreshToken = Jwts.builder()
                 .signWith(key, SignatureAlgorithm.HS512)
+                .claim(AUTHORITIES_KEY, authorities)
                 .setIssuedAt(now)
                 .setExpiration(refreshTime)
                 .compact();
@@ -106,5 +107,28 @@ public class JwtTokenProvider implements InitializingBean {
             return header.substring(7);
         }
         return null;
+    }
+
+    public JwtToken createToken(String refresh) {
+        Authentication auth = getAuthentication(refresh);
+
+        String authorities = auth.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
+
+        Date now = new Date();
+        Date accessTime = new Date(now.getTime()+ACCESS_TOKEN_EXPIRATION);
+
+        String accessToken = Jwts.builder()
+                .setSubject(auth.getName())
+                .claim(AUTHORITIES_KEY, authorities)
+                .signWith(key, SignatureAlgorithm.HS512)
+                .setIssuedAt(now)
+                .setExpiration(accessTime)
+                .compact();
+
+        return JwtToken.builder()
+                .grantType(GRANT_TYPE)
+                .accessToken(accessToken)
+                .build();
     }
 }
