@@ -28,21 +28,24 @@ public class UserController {
     @Operation(summary = "회원 가입", description = "")
     @PostMapping("/join")
     public ResponseEntity<?> join(@RequestBody JoinDto user){
-        return response.success(UserDto.of(userService.join(user)));
+        userService.join(user);
+        return response.success("ok");
     }
 
-    @PutMapping("/modify")
+    @PutMapping("")
     public ResponseEntity<?> modifyUser(@RequestBody UpdateDto updateDto){
-        return null;
+
+        return response.success(UserDto.of(userService.modify(updateDto)));
     }
 
-    @DeleteMapping("/remove")
+    @DeleteMapping("")
     public ResponseEntity<?> deleteUser(@RequestBody UserDto userDto){
-        return response.success(userService.deleteUser(userDto));
+        userService.deleteUser(userDto);
+        return response.success("ok");
     }
     @PostMapping("/category")
     public ResponseEntity<?> setCategory(@RequestBody UserCateDto userCateDto){
-        userService.setCategory(userCateDto.getUserDto());
+        userService.setCategory(userCateDto);
         return response.success(Collections.emptyList());
     }
 }

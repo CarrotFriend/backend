@@ -45,7 +45,7 @@ class UserServiceTest {
                     .build();
             UserDto of = UserDto.of(userService.join(joinDto));
             of.setCategoryList(list);
-            userService.setCategory(of);
+//            userService.setCategory(of);
         }
     }
     @Test
@@ -70,11 +70,11 @@ class UserServiceTest {
     @Test
     void 카테고리_중복_추가(){
         //기존 카테고리 1,2,3 에서 중복되는 1 추가
-         CategoryDto categoryDto = CategoryDto.builder().categoryId(1L).name("1").build();
+//         CategoryDto categoryDto = CategoryDto.builder().categoryId(1L).name("1").build();
          User user1 = userService.getUserById(1L);
          UserDto of = UserDto.of(user1);
-         of.getCategoryList().add(categoryDto);
-         userService.setCategory(of);
+//         of.getCategoryList().add(categoryDto);
+//         userService.setCategory(of);
 
         User user2 = userService.getUserById(1L);
         //카테고리 사이즈 같음 비교
@@ -83,12 +83,12 @@ class UserServiceTest {
     @Test
     void 카테고리_추가(){
         // 카테고리 4 추가
-        CategoryDto categoryDto = CategoryDto.builder().categoryId(4L).name("4").build();
-        categoryService.createCategory(categoryDto);
+//        CategoryDto categoryDto = CategoryDto.builder().categoryId(4L).name("4").build();
+//        categoryService.createCategory(categoryDto);
 
         UserDto of = UserDto.of(userService.getUserById(1L));
-        of.getCategoryList().add(categoryDto);
-        userService.setCategory(of);
+//        of.getCategoryList().add(categoryDto);
+//        userService.setCategory(of);
 
         User user2 = userService.getUserById(1L);
         //카테고리 사이즈 4 비교
@@ -100,7 +100,7 @@ class UserServiceTest {
         UserDto of = UserDto.of(userService.getUserById(1L));
         of.getCategoryList().remove(1);
         of.getCategoryList().remove(1);
-        userService.setCategory(of);
+//        userService.setCategory(of);
 
         User user2 = userService.getUserById(1L);
         //카테고리 사이즈 1 비교

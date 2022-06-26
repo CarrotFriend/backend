@@ -6,5 +6,6 @@ import java.util.List;
 
 @Getter
 public class UserCateDto {
-    private UserDto userDto;
+    private Long id;
+    private List<CategoryDto> categoryList;
 }

@@ -24,6 +24,11 @@ public class PostController {
     public ResponseEntity<?> findAllWithCategory(@PathVariable Long id){
         return response.success(postService.findAllWithCategory(id));
     }
+    @GetMapping("/mypost/{id}")
+    public ResponseEntity<?> getMyPosts(@PathVariable Long id){
+        return response.success(postService.getMyPosts(id));
+    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){

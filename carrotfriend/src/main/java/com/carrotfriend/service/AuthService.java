@@ -3,8 +3,7 @@ package com.carrotfriend.service;
 import com.carrotfriend.domain.User;
 import com.carrotfriend.dto.auth.JwtDto;
 import com.carrotfriend.dto.auth.LoginDto;
-import com.carrotfriend.dto.auth.LogoutDto;
-import com.carrotfriend.dto.auth.NewTokenDto;
+import com.carrotfriend.exception.CookieNotFound;
 import com.carrotfriend.exception.UserPasswordNotMatchedException;
 import com.carrotfriend.jwt.JwtToken;
 import com.carrotfriend.jwt.JwtTokenProvider;
@@ -17,6 +16,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+
 @RequiredArgsConstructor
 @Service
 @Transactional
@@ -27,7 +30,7 @@ public class AuthService {
     private final RedisUtil redisUtil;
     private final PasswordEncoder passwordEncoder;
 
-    public JwtDto logIn(LoginDto loginDto){
+    public JwtToken logIn(LoginDto loginDto){
         User user = userService.getUserByUserId(loginDto.getUserId());
         if(!passwordEncoder.matches(loginDto.getPw(),user.getPw())) throw new UserPasswordNotMatchedException("비밀번호 매칭 실패");
 
@@ -37,12 +40,19 @@ public class AuthService {
 
         redisUtil.set(auth.getName(), jwtToken.getRefreshToken(), jwtToken.getRefreshTokenExpiration().getTime());
 
-        return JwtDto.of(jwtToken);
+        return jwtToken;
     }
-    public boolean logOut(LogoutDto logoutDto){
-        if(!validate(logoutDto.getAccessToken(), logoutDto.getRefreshToken()))
+    public boolean logOut(HttpServletRequest req){
+        Cookie cookie = Arrays.stream(req.getCookies()).filter(c -> c.getName().equals("userid"))
+                .findAny().orElseThrow(() -> new CookieNotFound());
+        String refresh = cookie.getValue();
+        String access = provider.resolveToken(req);
+        validate(access, refresh);
+
+
+        if(!validate(access, refresh))
             return false;
-        String token = provider.validateToken(logoutDto.getAccessToken())? logoutDto.getAccessToken() : logoutDto.getRefreshToken();
+        String token = provider.validateToken(access)? access : refresh;
         Authentication auth = provider.getAuthentication(token);
         redisUtil.delete(auth.getName());
         return true;
@@ -53,9 +63,17 @@ public class AuthService {
             return false;
         return true;
     }
-    public JwtDto newJwt(NewTokenDto newTokenDto) {
-        if (!validate(newTokenDto.getAccessToken(), newTokenDto.getRefreshToken()))
-            return null;
-        return null;
+
+    private void validate(String refreshToken){
+        if(!provider.validateToken(refreshToken)) throw new RuntimeException();
+    }
+
+    public JwtToken regenerator(HttpServletRequest req) {
+        Cookie cookie = Arrays.stream(req.getCookies()).filter(c -> c.getName().equals("userid"))
+                .findAny().orElseThrow(() -> new CookieNotFound());
+        String refresh = cookie.getValue();
+
+        validate(refresh);
+        return provider.createToken(refresh);
     }
 }

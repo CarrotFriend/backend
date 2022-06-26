@@ -12,17 +12,11 @@ public class JwtDto {
     private String grantType;
     @JsonProperty
     private String accessToken;
-    @JsonProperty
-    private String refreshToken;
-    @JsonProperty
-    private Date refreshTokenExpireTime;
 
     public static JwtDto of(JwtToken jwtToken){
         return JwtDto.builder()
                 .accessToken(jwtToken.getAccessToken())
-                .refreshToken(jwtToken.getRefreshToken())
                 .grantType(jwtToken.getGrantType())
-                .refreshTokenExpireTime(jwtToken.getRefreshTokenExpiration())
                 .build();
     }
 }
