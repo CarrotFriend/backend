@@ -1,5 +1,6 @@
 package com.carrotfriend.domain;
 
+import com.carrotfriend.dto.user.UpdateDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,6 +20,7 @@ public class User {
     @Column(unique = true)
     private String userId;
     private String pw;
+    private String name;
     @Column(unique = true)
     private String nickName;
     private LocalDate birthday;
@@ -51,5 +53,11 @@ public class User {
 
     public void removeCategory(UserToCategory c) {
         this.userToCategoryList.remove(c);
+    }
+
+    public void update(UpdateDto updateDto) {
+        this.image = Image.builder().src(updateDto.getImage().getSrc()).build();
+        this.pw = updateDto.getPw();
+        this.nickName = updateDto.getNickName();
     }
 }

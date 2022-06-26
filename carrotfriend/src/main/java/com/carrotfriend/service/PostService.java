@@ -71,7 +71,7 @@ public class PostService {
     @Transactional
     public Post update(UpdateDto updateDto){
         Post post = getPostById(updateDto.getId());
-        post.setCategory(categoryService.getOneById(updateDto.getCategory().getCategoryId()));
+        post.setCategory(categoryService.getOneById(updateDto.getCategory().getCode()));
         post.setContent(updateDto.getContent());
         post.setTitle(updateDto.getTitle());
         post.setTagList(updateDto.getTagList().stream().map(t->t.getText()).collect(Collectors.toList()));
@@ -88,5 +88,20 @@ public class PostService {
                 " left join fetch p.imageList i where p.id=:id", Post.class).setParameter("id", id).getSingleResult();
         post.setTagList((List<String>)redisUtil.get("POST_TAG::"+post.getId()));
         return post;
+    }
+
+    public List<PostDto> getMyPosts(Long id) {
+        List<Post> posts = em.createQuery(
+                "select p from Post p " +
+                        "inner join fetch p.category c "+
+                        "left join fetch p.imageList i "+
+                "where p.user.id=:id", Post.class)
+                .setParameter("id", id).getResultList();
+        return posts.stream().
+                map(p->{
+                    p.setTagList((List<String>)redisUtil.get("POST_TAG::"+p.getId()));
+                    PostDto dto = PostDto.of(p);
+                    return dto;
+                }).collect(Collectors.toList());
     }
 }
