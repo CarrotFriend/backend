@@ -54,6 +54,7 @@ public class JwtTokenProvider implements InitializingBean {
         List<? extends GrantedAuthority> auth = Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
+        logger.info("userDetail:: id = {}",claims.getSubject());
         UserDetails user = new User(claims.getSubject(), "", auth);
 
         return new UsernamePasswordAuthenticationToken(user, "", auth);
@@ -87,6 +88,7 @@ public class JwtTokenProvider implements InitializingBean {
                 .compact();
 
         String refreshToken = Jwts.builder()
+                .setSubject(auth.getName())
                 .signWith(key, SignatureAlgorithm.HS512)
                 .claim(AUTHORITIES_KEY, authorities)
                 .setIssuedAt(now)

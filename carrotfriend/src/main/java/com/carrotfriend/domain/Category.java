@@ -24,7 +24,7 @@ public class Category {
     private final List<Post> postList = new ArrayList<>();
 
     public static Category of(CategoryDto categoryDto){
-        Category category = new Category(categoryDto.getCategoryId(), categoryDto.getName());
+        Category category = new Category(categoryDto.getCode(), categoryDto.getName());
         return category;
     }
 }

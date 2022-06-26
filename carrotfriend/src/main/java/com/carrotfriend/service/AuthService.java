@@ -9,6 +9,8 @@ import com.carrotfriend.jwt.JwtToken;
 import com.carrotfriend.jwt.JwtTokenProvider;
 import com.carrotfriend.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -24,6 +26,7 @@ import java.util.Arrays;
 @Service
 @Transactional
 public class AuthService {
+    private static Logger logger = LoggerFactory.getLogger(AuthService.class);
     private final UserService userService;
     private final JwtTokenProvider provider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
@@ -74,6 +77,7 @@ public class AuthService {
         String refresh = cookie.getValue();
 
         validate(refresh);
+        logger.info(refresh);
         return provider.createToken(refresh);
     }
 }
